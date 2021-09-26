@@ -8,5 +8,5 @@ import lombok.Getter;
 public class Spice {
 
     private long id;
-    private long name;
+    private String name;
 }

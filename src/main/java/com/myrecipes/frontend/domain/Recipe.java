@@ -13,8 +13,8 @@ public class Recipe {
     private String description;
     private int cookingTime;
     private int totalCalories;
-    private List<Ingredient> ingredients = new ArrayList<>();
-    private List<Spice> spices = new ArrayList<>();
+    private List<Ingredient> ingredients;
+    private List<Spice> spices;
 
     public Recipe(long id, String name, String description, int cookingTime) {
         this.id = id;
@@ -22,6 +22,8 @@ public class Recipe {
         this.description = description;
         this.cookingTime = cookingTime;
         this.totalCalories = countTotalCalories();
+        this.ingredients = new ArrayList<>();
+        this.spices = new ArrayList<>();
     }
 
     public void addIngredient(Ingredient ingredient) {
@@ -32,23 +34,31 @@ public class Recipe {
         spices.add(spice);
     }
 
-    public String printSpices(List<Spice> spices) {
+    public String printSpices() {
 
-        String allSpices = "";
+        if(spices.size() > 0) {
+            String allSpices = "Preferred spices: ";
 
-        for (Spice spice: spices) {
-            allSpices = allSpices + spice.getName() + ", ";
+            for (Spice spice: this.spices) {
+                allSpices = allSpices + spice.getName() + ", ";
+            }
+            return allSpices = allSpices.substring(0, allSpices.length() - 2);
+        } else {
+            return "No spices specified";
         }
-        return allSpices = allSpices.substring(0, allSpices.length() - 2);
+    }
+
+    public String printDescription() {
+        return "PRINT DESCRIPTION";
     }
 
     public int countTotalCalories() {
-        return 0;
+        return 1000;
     }
 
     public int getTotalProtein() {
         return 0;
-    }
+    }  // todo stream po listach
 
     public int getTotalCarbohydrates() {
         return 0;
