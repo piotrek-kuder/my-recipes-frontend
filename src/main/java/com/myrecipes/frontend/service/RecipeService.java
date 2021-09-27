@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class RecipeService {
@@ -17,5 +19,9 @@ public class RecipeService {
 
     public Recipe getDummyData() {
         return dummyData.getDummyRecipe();
+    }
+
+    public void addRecipe(Recipe recipe) {
+        dummyData.addRecipe(recipe);
     }
 }

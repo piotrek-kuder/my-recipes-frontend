@@ -7,10 +7,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Component
-@NoArgsConstructor
 public class DummyData {
+
+    private List<Recipe> recipes;
+
+    public DummyData() {
+        recipes = new ArrayList<>();
+        recipes.add(getDummyRecipe());
+    }
 
     public Recipe getDummyRecipe() {
 
@@ -26,7 +35,7 @@ public class DummyData {
         Spice spice4 = new Spice(4, "spice 4");
         Spice spice5 = new Spice(5, "spice 5");
 
-        Recipe recipe = new Recipe(1, "dummy recipe 1","dummy desc 1", 60);
+        Recipe recipe = new Recipe("dummy recipe 1","dummy desc 1", 60);
 
         recipe.addIngredient(ingredient1);
         recipe.addIngredient(ingredient2);
@@ -42,4 +51,15 @@ public class DummyData {
         return recipe;
     }
 
+    public void addRecipe(Recipe recipe) {
+        recipes.add(recipe);
+    }
+
+    public void updateRecipe(Recipe recipe) {
+        recipes.add(recipe);
+    }
+
+    public void removeRecipe(Recipe recipe) {
+        recipes.remove(recipe);
+    }
 }

@@ -1,11 +1,13 @@
 package com.myrecipes.frontend.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@EqualsAndHashCode
 public class Recipe {
 
     private long id;
@@ -16,12 +18,12 @@ public class Recipe {
     private List<Ingredient> ingredients;
     private List<Spice> spices;
 
-    public Recipe(long id, String name, String description, int cookingTime) {
-        this.id = id;
+    public Recipe(String name, String description, int cookingTime) {
+        this.id = 0;
         this.name = name;
         this.description = description;
         this.cookingTime = cookingTime;
-        this.totalCalories = countTotalCalories();
+        this.totalCalories = 0;
         this.ingredients = new ArrayList<>();
         this.spices = new ArrayList<>();
     }
