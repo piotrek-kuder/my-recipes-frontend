@@ -16,7 +16,7 @@ public class Recipe {
     private int cookingTime;
     private int totalCalories;
     private List<Ingredient> ingredients;
-    private List<Spice> spices;
+    private List<String> spices;
 
     public Recipe(String name, String description, int cookingTime) {
         this.id = 0;
@@ -32,7 +32,7 @@ public class Recipe {
         ingredients.add(ingredient);
     }
 
-    public void addSpice(Spice spice) {
+    public void addSpice(String spice) {
         spices.add(spice);
     }
 
@@ -41,8 +41,8 @@ public class Recipe {
         if(spices.size() > 0) {
             String allSpices = "Preferred spices: ";
 
-            for (Spice spice: this.spices) {
-                allSpices = allSpices + spice.getName() + ", ";
+            for (String spice: this.spices) {
+                allSpices = allSpices + spice + ", ";
             }
             return allSpices = allSpices.substring(0, allSpices.length() - 2);
         } else {

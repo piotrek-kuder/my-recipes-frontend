@@ -1,14 +1,13 @@
 package com.myrecipes.frontend.service;
 
+import com.myrecipes.frontend.domain.Ingredient;
 import com.myrecipes.frontend.domain.Recipe;
 import com.myrecipes.frontend.service.dummydata.DummyData;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,5 +22,9 @@ public class RecipeService {
 
     public void addRecipe(Recipe recipe) {
         dummyData.addRecipe(recipe);
+    }
+
+    public List<Ingredient> getDummyIngredients() {
+        return dummyData.getDummyIngredients();
     }
 }

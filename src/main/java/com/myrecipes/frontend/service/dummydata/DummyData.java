@@ -2,9 +2,7 @@ package com.myrecipes.frontend.service.dummydata;
 
 import com.myrecipes.frontend.domain.Ingredient;
 import com.myrecipes.frontend.domain.Recipe;
-import com.myrecipes.frontend.domain.Spice;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,10 +13,12 @@ import java.util.List;
 public class DummyData {
 
     private List<Recipe> recipes;
+    List<Ingredient> ingredients;
 
     public DummyData() {
         recipes = new ArrayList<>();
         recipes.add(getDummyRecipe());
+        ingredients = new ArrayList<>();
     }
 
     public Recipe getDummyRecipe() {
@@ -29,11 +29,8 @@ public class DummyData {
         Ingredient ingredient4 = new Ingredient(4, "ingr 4", 1, 14, 444, 12, 200);
         Ingredient ingredient5 = new Ingredient(5, "ingr 5", 1, 15, 555, 12, 200);
 
-        Spice spice1 = new Spice(1, "spice 1");
-        Spice spice2 = new Spice(2, "spice 2");
-        Spice spice3 = new Spice(3, "spice 3");
-        Spice spice4 = new Spice(4, "spice 4");
-        Spice spice5 = new Spice(5, "spice 5");
+        String spice1 = "spice 1";
+        String spice2 = "spice 2";
 
         Recipe recipe = new Recipe("dummy recipe 1","dummy desc 1", 60);
 
@@ -44,9 +41,6 @@ public class DummyData {
         recipe.addIngredient(ingredient5);
         recipe.addSpice(spice1);
         recipe.addSpice(spice2);
-        recipe.addSpice(spice3);
-        recipe.addSpice(spice4);
-        recipe.addSpice(spice5);
 
         return recipe;
     }
@@ -61,5 +55,22 @@ public class DummyData {
 
     public void removeRecipe(Recipe recipe) {
         recipes.remove(recipe);
+    }
+
+    public List<Ingredient> getDummyIngredients() {
+
+        Ingredient ingredient1 = new Ingredient(1, "found 1", 1, 11, 111, 12, 400);
+        Ingredient ingredient2 = new Ingredient(2, "found 2", 1, 12, 222, 12, 400);
+        Ingredient ingredient3 = new Ingredient(3, "found 3", 1, 13, 333, 12, 400);
+        Ingredient ingredient4 = new Ingredient(4, "found 4", 1, 14, 444, 12, 400);
+        Ingredient ingredient5 = new Ingredient(5, "found 5", 1, 15, 555, 12, 400);
+
+        ingredients.add(ingredient1);
+        ingredients.add(ingredient2);
+        ingredients.add(ingredient3);
+        ingredients.add(ingredient4);
+        ingredients.add(ingredient5);
+
+        return ingredients;
     }
 }

@@ -3,6 +3,7 @@ package com.myrecipes.frontend.view;
 import com.myrecipes.frontend.domain.Ingredient;
 import com.myrecipes.frontend.domain.Recipe;
 import com.myrecipes.frontend.service.RecipeService;
+import com.myrecipes.frontend.view.components.IngredientForm;
 import com.myrecipes.frontend.view.components.RecipeForm;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
@@ -21,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 @PageTitle("Recipes frontend")
 public class MainView extends VerticalLayout {
 
+    private RecipeService recipeService;
+
     private HorizontalLayout buttonsBar = new HorizontalLayout();
     private HorizontalLayout infoBar = new HorizontalLayout();
     private VerticalLayout recipeSection = new VerticalLayout();
@@ -35,14 +38,13 @@ public class MainView extends VerticalLayout {
     private Grid<Recipe> recipeGrid = new Grid<>(Recipe.class);
     private Grid<Ingredient> ingredientGrid = new Grid<>(Ingredient.class);
     private Paragraph recipeText = new Paragraph("example description");
-    private RecipeForm recipeForm = new RecipeForm(this);
-
-    @Autowired
-    private RecipeService recipeService;
-
+    private RecipeForm recipeForm;
+    private IngredientForm ingredientForm;
 
     public MainView(RecipeService recipeService) {
         this.recipeService = recipeService;
+        recipeForm = new RecipeForm(this, recipeService);
+        ingredientForm = new IngredientForm(this, recipeService);
         setSizeFull();
         configureButtons();
         configureButtonsBar();
@@ -59,6 +61,7 @@ public class MainView extends VerticalLayout {
             copyRecipe.setEnabled(false);
             removeRecipe.setEnabled(false);
             ingredientGrid.setVisible(false);
+            recipeSection.setVisible(false);
             recipeForm.setSizeFull();
             recipeForm.setVisible(true);
         });
@@ -116,5 +119,9 @@ public class MainView extends VerticalLayout {
         infoBar.setSizeFull();
         infoBar.add(recipeSection, ingredientGrid, recipeForm);
         infoBar.getStyle().set("border", "3px solid #4B9DFF");
+    }
+
+    public VerticalLayout getRecipeSection() {
+        return recipeSection;
     }
 }
