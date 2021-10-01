@@ -16,7 +16,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Route("/front")
 @PageTitle("Recipes frontend")
@@ -64,6 +63,7 @@ public class MainView extends VerticalLayout {
             recipeSection.setVisible(false);
             recipeForm.setSizeFull();
             recipeForm.setVisible(true);
+            ingredientForm.setVisible(true);
         });
 
         editRecipe.addThemeVariants(ButtonVariant.LUMO_LARGE);
@@ -115,13 +115,22 @@ public class MainView extends VerticalLayout {
     private void configureInfoBar() {
         recipeForm.setSizeFull();
         recipeForm.setVisible(false);
+        ingredientForm.setVisible(false);
         recipeSection.add(recipeGrid, recipeText);
         infoBar.setSizeFull();
-        infoBar.add(recipeSection, ingredientGrid, recipeForm);
+        infoBar.add(recipeSection, ingredientGrid, recipeForm, ingredientForm);
         infoBar.getStyle().set("border", "3px solid #4B9DFF");
     }
 
     public VerticalLayout getRecipeSection() {
         return recipeSection;
+    }
+
+    public IngredientForm getIngredientForm() {
+        return ingredientForm;
+    }
+
+    public RecipeForm getRecipeForm() {
+        return recipeForm;
     }
 }

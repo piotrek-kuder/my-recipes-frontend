@@ -31,13 +31,14 @@ public class RecipeForm extends VerticalLayout {
     private Button save = new Button("Save recipe");
     private Button cancel = new Button("Cancel");
     private Button addIngredient = new Button("Add ingredient", new Icon(VaadinIcon.PLUS));
-    private Button addSpice = new Button("Add spice", new Icon(VaadinIcon.PLUS));
+    private Button removeIngredient = new Button("Remove ingredient", new Icon(VaadinIcon.MINUS));
+    private Button addSpice = new Button("Add/remove spices", new Icon(VaadinIcon.PLUS));
     private Grid<Ingredient> presentIngr = new Grid<>(Ingredient.class);
     private Grid<Ingredient> suggestedIngr = new Grid<>(Ingredient.class);
     private HorizontalLayout buttonsLayout = new HorizontalLayout();
     private VerticalLayout gridsLayout = new VerticalLayout();
     private VerticalLayout formLayout = new VerticalLayout();
-    private Binder<Recipe> binder = new Binder<>(Recipe.class);
+    private Binder<Recipe> recipeBinder = new Binder<>(Recipe.class);
 
     public RecipeForm(MainView mainView, RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -59,17 +60,21 @@ public class RecipeForm extends VerticalLayout {
         cancel.getStyle().set("border", "3px solid #9E9E9E");
         cancel.addClickListener(click -> {
             mainView.getRecipeSection().setVisible(true);
+            mainView.getRecipeForm().setVisible(false);
+            mainView.getIngredientForm().setVisible(false);
         });
 
         addIngredient.getStyle().set("border", "3px solid #9E9E9E");
+        removeIngredient.getStyle().set("border", "3px solid #9E9E9E");
+        removeIngredient.setEnabled(false);
         addSpice.getStyle().set("border", "3px solid #9E9E9E");
         addSpice.addClickListener(click -> {
         });
     }
 
     private void configureButtonsLayout() {
-        buttonsLayout.setWidth("150%");
-        buttonsLayout.add(save, cancel, addIngredient, addSpice);
+        buttonsLayout.setWidth("100%");
+        buttonsLayout.add(save, cancel, addIngredient, removeIngredient, addSpice);
         buttonsLayout.getStyle().set("border", "3px solid #4B9DFF");
     }
 
