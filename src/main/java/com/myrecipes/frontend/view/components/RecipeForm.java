@@ -13,6 +13,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.value.HasValueChangeMode;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -26,15 +27,12 @@ public class RecipeForm extends VerticalLayout {
     private TextField name = new TextField("Name");
     private TextField description = new TextField("Description");
     private TextField cookingTime = new TextField("Cooking Time");
-    private TextField typeIngr = new TextField("Type ingredient name: ");
     private Label spicesList = new Label();
     private Button save = new Button("Save recipe");
     private Button cancel = new Button("Cancel");
-    private Button addIngredient = new Button("Add ingredient", new Icon(VaadinIcon.PLUS));
     private Button removeIngredient = new Button("Remove ingredient", new Icon(VaadinIcon.MINUS));
     private Button addSpice = new Button("Add/remove spices", new Icon(VaadinIcon.PLUS));
     private Grid<Ingredient> presentIngr = new Grid<>(Ingredient.class);
-    private Grid<Ingredient> suggestedIngr = new Grid<>(Ingredient.class);
     private HorizontalLayout buttonsLayout = new HorizontalLayout();
     private VerticalLayout gridsLayout = new VerticalLayout();
     private VerticalLayout formLayout = new VerticalLayout();
@@ -63,8 +61,6 @@ public class RecipeForm extends VerticalLayout {
             mainView.getRecipeForm().setVisible(false);
             mainView.getIngredientForm().setVisible(false);
         });
-
-        addIngredient.getStyle().set("border", "3px solid #9E9E9E");
         removeIngredient.getStyle().set("border", "3px solid #9E9E9E");
         removeIngredient.setEnabled(false);
         addSpice.getStyle().set("border", "3px solid #9E9E9E");
@@ -74,7 +70,7 @@ public class RecipeForm extends VerticalLayout {
 
     private void configureButtonsLayout() {
         buttonsLayout.setWidth("100%");
-        buttonsLayout.add(save, cancel, addIngredient, removeIngredient, addSpice);
+        buttonsLayout.add(save, cancel, removeIngredient, addSpice);
         buttonsLayout.getStyle().set("border", "3px solid #4B9DFF");
     }
 
@@ -85,24 +81,13 @@ public class RecipeForm extends VerticalLayout {
         presentIngr.setItems(recipeService.getDummyData().getIngredients());
         presentIngr.addColumn(Ingredient::getCaloriesPer100Gr).setHeader("Calories/100g");
         presentIngr.getColumns().forEach(col -> col.setAutoWidth(true));
-
-        suggestedIngr.setSizeFull();
-        suggestedIngr.setColumns("name", "amount", "protein",
-                "carbohydrates", "fat");
-        suggestedIngr.setItems(recipeService.getDummyIngredients());
-        suggestedIngr.addColumn(Ingredient::getCaloriesPer100Gr).setHeader("Calories/100g");
-        suggestedIngr.getColumns().forEach(col -> col.setAutoWidth(true));
     }
 
     private void configureGridsLayout() {
-        typeIngr.setPlaceholder(" ... type here ...");
-        typeIngr.setClearButtonVisible(true);
-        typeIngr.setValueChangeMode(ValueChangeMode.LAZY);
-        typeIngr.setValueChangeTimeout(HasValueChangeMode.DEFAULT_CHANGE_TIMEOUT);
         spicesList.setTitle("Spices:");
         spicesList.setText("spice1, spice2, ...");
         gridsLayout.setSizeFull();
-        gridsLayout.add(presentIngr, spicesList, typeIngr, suggestedIngr);
+        gridsLayout.add(presentIngr, spicesList);
     }
 
     private void configureFormLayout() {
