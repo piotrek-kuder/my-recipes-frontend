@@ -8,7 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,22 @@ public class RecipeService {
     }
 
     public List<Ingredient> getDummyIngredients() {
-        return dummyData.getDummyIngredients();
+        return dummyData.getIngredients();
+    }
+
+    public List<Recipe> findRecipeByName(String name) {  //todo
+        return dummyData.getRecipes().stream().filter(recipe ->
+                recipe.getName().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Ingredient> findIngredientByName(String name) {  //todo
+        return dummyData.getIngredients().stream().filter(ingredient ->
+                ingredient.getName().toLowerCase().contains(name.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Recipe> findAllRecipes() {
+        return dummyData.getRecipes();
     }
 }

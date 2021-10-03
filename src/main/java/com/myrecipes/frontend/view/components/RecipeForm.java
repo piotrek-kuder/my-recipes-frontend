@@ -13,12 +13,8 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.textfield.TextFieldVariant;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.value.HasValueChangeMode;
-import com.vaadin.flow.data.value.ValueChangeMode;
 
-//public class RecipeForm extends FormLayout {
 public class RecipeForm extends VerticalLayout {
 
     private RecipeService recipeService;
@@ -58,6 +54,7 @@ public class RecipeForm extends VerticalLayout {
         cancel.getStyle().set("border", "3px solid #9E9E9E");
         cancel.addClickListener(click -> {
             mainView.getRecipeSection().setVisible(true);
+            mainView.getFindRecipe().setEnabled(true);
             mainView.getRecipeForm().setVisible(false);
             mainView.getIngredientForm().setVisible(false);
         });
@@ -78,7 +75,7 @@ public class RecipeForm extends VerticalLayout {
         presentIngr.setSizeFull();
         presentIngr.setColumns("name", "amount", "protein",
                 "carbohydrates", "fat");
-        presentIngr.setItems(recipeService.getDummyData().getIngredients());
+        //presentIngr.setItems(recipeService.getDummyData().getIngredients()); todo
         presentIngr.addColumn(Ingredient::getCaloriesPer100Gr).setHeader("Calories/100g");
         presentIngr.getColumns().forEach(col -> col.setAutoWidth(true));
     }

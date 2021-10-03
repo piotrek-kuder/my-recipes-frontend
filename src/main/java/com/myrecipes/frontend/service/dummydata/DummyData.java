@@ -19,6 +19,7 @@ public class DummyData {
         recipes = new ArrayList<>();
         recipes.add(getDummyRecipe());
         ingredients = new ArrayList<>();
+        ingredients = getDummyIngredients();
     }
 
     public Recipe getDummyRecipe() {

@@ -14,6 +14,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -22,6 +23,8 @@ import com.vaadin.flow.router.Route;
 public class MainView extends VerticalLayout {
 
     private RecipeService recipeService;
+    private RecipeForm recipeForm;
+    private IngredientForm ingredientForm;
 
     private HorizontalLayout buttonsBar = new HorizontalLayout();
     private HorizontalLayout infoBar = new HorizontalLayout();
@@ -37,8 +40,7 @@ public class MainView extends VerticalLayout {
     private Grid<Recipe> recipeGrid = new Grid<>(Recipe.class);
     private Grid<Ingredient> ingredientGrid = new Grid<>(Ingredient.class);
     private Paragraph recipeText = new Paragraph("example description");
-    private RecipeForm recipeForm;
-    private IngredientForm ingredientForm;
+
 
     public MainView(RecipeService recipeService) {
         this.recipeService = recipeService;
@@ -84,7 +86,7 @@ public class MainView extends VerticalLayout {
     private void configureGrids() {
         recipeGrid.setSizeFull();
         recipeGrid.setColumns("name", "cookingTime", "totalCalories");
-        recipeGrid.setItems(recipeService.getDummyData());
+        recipeGrid.setItems(recipeService.findAllRecipes());
         recipeGrid.getColumns().forEach(col -> col.setAutoWidth(true));
         recipeGrid.asSingleSelect().addValueChangeListener(event -> {
             findRecipe.setEnabled(true);
@@ -93,12 +95,12 @@ public class MainView extends VerticalLayout {
             removeRecipe.setEnabled(true);
             recipeForm.setVisible(false);
             ingredientGrid.setVisible(true);
+            recipeGrid.getSelectedItems().forEach(recipe -> ingredientGrid.setItems(recipe.getIngredients()));
         });
 
         ingredientGrid.setSizeFull();
         ingredientGrid.setColumns("name", "amount", "protein",
                 "carbohydrates", "fat");
-        ingredientGrid.setItems(recipeService.getDummyData().getIngredients());
         ingredientGrid.addColumn(Ingredient::getCaloriesPer100Gr).setHeader("Calories/100g");
         ingredientGrid.getColumns().forEach(col -> col.setAutoWidth(true));
     }
@@ -106,6 +108,8 @@ public class MainView extends VerticalLayout {
     private void configureButtonsBar() {
         findRecipe.setPlaceholder("Find recipe by keywords: ");
         findRecipe.setClearButtonVisible(true);
+        findRecipe.setValueChangeMode(ValueChangeMode.EAGER);
+        findRecipe.addValueChangeListener(event -> updateRecipeGrid());
 
         buttonsBar.setWidth("90%");
         buttonsBar.add(findRecipe, addRecipe, editRecipe, copyRecipe, removeRecipe, helpButton, aboutApp, showStats);
@@ -122,6 +126,10 @@ public class MainView extends VerticalLayout {
         infoBar.getStyle().set("border", "3px solid #4B9DFF");
     }
 
+    private void updateRecipeGrid() {
+        recipeGrid.setItems(recipeService.findRecipeByName(findRecipe.getValue()));
+    }
+
     public VerticalLayout getRecipeSection() {
         return recipeSection;
     }
@@ -132,5 +140,9 @@ public class MainView extends VerticalLayout {
 
     public RecipeForm getRecipeForm() {
         return recipeForm;
+    }
+
+    public TextField getFindRecipe() {
+        return findRecipe;
     }
 }

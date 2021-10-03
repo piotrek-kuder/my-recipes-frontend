@@ -19,6 +19,7 @@ public class IngredientForm extends VerticalLayout {
 
     private MainView mainView;
     private RecipeService recipeService;
+
     private Button addIngredient = new Button("Add ingredient", new Icon(VaadinIcon.PLUS));
     private Grid<Ingredient> suggestedIngr = new Grid<>(Ingredient.class);
     private TextField name = new TextField("Name");
@@ -27,7 +28,7 @@ public class IngredientForm extends VerticalLayout {
     private TextField carbohydrates = new TextField("Carbohydrates/100gr");
     private TextField fat = new TextField("Fat/100gr");
     private TextField caloriesPer100Gr = new TextField("Calories/100gr");
-    private TextField typeIngr = new TextField("Type ingredient name: ");
+    private TextField typeIngr = new TextField("Find ingredient in Spoonacular: ");
     private FormLayout nutritionInfoFields = new FormLayout(name, amount, protein, carbohydrates, fat, caloriesPer100Gr);
     private VerticalLayout gridLayout = new VerticalLayout();
     private HorizontalLayout buttonsBar = new HorizontalLayout();
@@ -58,6 +59,7 @@ public class IngredientForm extends VerticalLayout {
         suggestedIngr.setSizeFull();
         suggestedIngr.setColumns("name", "amount", "protein",
                 "carbohydrates", "fat");
+       // suggestedIngr.setItems(recipeService.getDummyIngredients()); todo
         suggestedIngr.setItems(recipeService.getDummyIngredients());
         suggestedIngr.addColumn(Ingredient::getCaloriesPer100Gr).setHeader("Calories/100g");
         suggestedIngr.getColumns().forEach(col -> col.setAutoWidth(true));
@@ -68,7 +70,12 @@ public class IngredientForm extends VerticalLayout {
         typeIngr.setClearButtonVisible(true);
         typeIngr.setValueChangeMode(ValueChangeMode.LAZY);
         typeIngr.setValueChangeTimeout(HasValueChangeMode.DEFAULT_CHANGE_TIMEOUT);
+        typeIngr.addValueChangeListener(event -> updateSuggestedIngrGrid());
         gridLayout.setSizeFull();
         gridLayout.add(typeIngr, suggestedIngr);
+    }
+
+    private void updateSuggestedIngrGrid() {
+        suggestedIngr.setItems(recipeService.findIngredientByName(typeIngr.getValue()));
     }
 }
